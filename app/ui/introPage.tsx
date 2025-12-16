@@ -1,8 +1,9 @@
 "use client";
 import React from "react";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import { ScrollTrigger, SplitText } from "gsap/all";
 
 const images: string[] = [
   "/image-1.jpg",
@@ -19,6 +20,13 @@ const images: string[] = [
 
 export default function IntroPage() {
   const containerRef = useRef<HTMLDivElement>(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (!containerRef.current) return;
@@ -26,52 +34,52 @@ export default function IntroPage() {
     const imageEls = gsap.utils.toArray<HTMLImageElement>(
       containerRef.current.querySelectorAll("img")
     );
+    const masterTL = gsap.timeline();
+    const paraSplit = new SplitText(".introText", { type: "lines" });
 
-    const popImage = (image: HTMLImageElement) => {
-      const container = containerRef.current!;
-      const containerWidth = container.offsetWidth;
-      const containerHeight = container.offsetHeight;
+    masterTL.from(paraSplit.lines, {
+      opacity: 0,
+      yPercent: 100,
+      duration: 1.8,
+      ease: "expo.out",
+      stagger: 0.4,
+      delay: 1,
+    });
 
-      // Pick a random position inside the container
-      const x = gsap.utils.random(0, containerWidth - image.offsetWidth);
-      const y = gsap.utils.random(0, containerHeight - image.offsetHeight);
+    const radiusX = 550;
+    const radiusY = 300;
+    const container = containerRef.current;
+    const centerX = container.offsetWidth / 2;
+    const centerY = container.offsetHeight / 2;
 
+    // Animate each image along the oval
+    imageEls.forEach((image, i) => {
+      const angle = (i / images.length) * Math.PI * 2; // evenly spaced
+
+      const x = centerX + radiusX * Math.cos(angle) - image.offsetWidth / 2;
+      const y = centerY + radiusY * Math.sin(angle) - image.offsetHeight / 2;
+
+      // Add image animation to master timeline
       const tl = gsap.timeline();
 
-      tl.set(image, {
+      masterTL.set(image, {
         x,
         y,
-        rotation: gsap.utils.random(-30, 30),
-        scale: 1.5,
+        scale: 1,
         opacity: 0,
-        zIndex: Math.floor(gsap.utils.random(1, 10)),
         position: "absolute",
       });
 
-      tl.to(image, {
-        scale: gsap.utils.random(0.8, 1.1),
+      masterTL.to(image, {
         opacity: 1,
+        scale: 1.6,
         duration: 0.5,
+        stagger: 1.4,
         ease: "back.out(1.7)",
-      });
-
-      tl.to(
-        image,
-        {
-          opacity: 0,
-          scale: 0.6,
-          duration: 0.4,
-          ease: "power2.in",
+        repeat: 0, // play exactly twice
+        onComplete: () => {
+          gsap.set(image, { opacity: 0, scale: 1 }); // hide after two plays
         },
-        "+=1.2"
-      );
-    };
-
-    // Loop through images with random delay
-    imageEls.forEach((image) => {
-      gsap.delayedCall(gsap.utils.random(0, 2), function loop() {
-        popImage(image);
-        gsap.delayedCall(gsap.utils.random(1, 3), loop);
       });
     });
   }, []);
@@ -80,20 +88,31 @@ export default function IntroPage() {
     <div
       className="h-screen w-screen relative overflow-hidden"
       style={{
+        transform: `translateY(-${scrollY * 0.5}px)`, // door slides up
+        transition: "transform 0.2s ease-out",
         backgroundImage: "url(/bg-image.jpg)",
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
-      <div ref={containerRef} className="h-full  mx-9 w-full border border-red-500 ">
+      <div
+        ref={containerRef}
+        className="relative h-full  mx-30 my-20  border border-red-500 "
+      >
         {images.map((url, i) => (
           <img
             key={i}
             src={url}
-            className="img rounded-xl shadow-xl w-40"
+            className="img rounded-xl shadow-xl w-50 opacity-0"
             alt=""
           />
         ))}
+        <div className="border h-full w-full">
+          <p className="absolute border w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center introText text-8xl font-semibold z-100">
+            Browse Upcoming <br /> Events and Festivals <br />
+            In Addis Abeba
+          </p>
+        </div>
       </div>
     </div>
   );
