@@ -46,40 +46,63 @@ export default function IntroPage() {
       delay: 1,
     });
 
-    const radiusX = 550;
-    const radiusY = 300;
-    const container = containerRef.current;
-    const centerX = container.offsetWidth / 2;
-    const centerY = container.offsetHeight / 2;
+    let angleIndex = 90; // track which position in the oval to use
+    const totalPositions = images.length; // number of positions along the oval
+    const radiusX = 550; // horizontal radius (longer)
+    const radiusY = 300; // vertical radius (shorter)
 
-    // Animate each image along the oval
-    imageEls.forEach((image, i) => {
-      const angle = (i / images.length) * Math.PI * 2; // evenly spaced
+    const popImage = (image: HTMLImageElement) => {
+      const container = containerRef.current!;
+      const containerWidth = container.offsetWidth;
+      const containerHeight = container.offsetHeight;
+      const centerX = containerWidth / 2;
+      const centerY = containerHeight / 2;
 
+      // Calculate angle for this image
+      const angle = (angleIndex / totalPositions) * Math.PI * 2;
+
+      // Calculate x, y along the oval
       const x = centerX + radiusX * Math.cos(angle) - image.offsetWidth / 2;
       const y = centerY + radiusY * Math.sin(angle) - image.offsetHeight / 2;
 
-      // Add image animation to master timeline
+      angleIndex = (angleIndex + 1) % totalPositions;
       const tl = gsap.timeline();
 
-      masterTL.set(image, {
+      tl.set(image, {
         x,
         y,
+        rotation: gsap.utils.random(-200, 30),
         scale: 1,
         opacity: 0,
+        delay: 2,
+        zIndex: Math.floor(gsap.utils.random(1, 10)),
         position: "absolute",
       });
 
-      masterTL.to(image, {
+      tl.to(image, {
         opacity: 1,
-        scale: 1.6,
-        duration: 0.5,
-        stagger: 1.4,
-        ease: "back.out(1.7)",
-        repeat: 0, // play exactly twice
-        onComplete: () => {
-          gsap.set(image, { opacity: 0, scale: 1 }); // hide after two plays
+        duration: 1.5,
+        yoyo: true,
+        ease: "ease.in.Out",
+      });
+
+      tl.to(
+        image,
+        {
+          opacity: 0,
+          scale: 0.6,
+          duration: 0.4,
+          ease: "power2.inOut",
         },
+        "+=1.2"
+      );
+    };
+
+    // Loop through images with random delay
+    imageEls.forEach((image) => {
+      gsap.delayedCall(gsap.utils.random(0, 2), function loop() {
+        popImage(image);
+        gsap.delayedCall(gsap.utils.random(1, 3), loop);
       });
     });
   }, []);
@@ -95,10 +118,7 @@ export default function IntroPage() {
         backgroundPosition: "center",
       }}
     >
-      <div
-        ref={containerRef}
-        className="relative h-full  mx-30 my-20  border border-red-500 "
-      >
+      <div ref={containerRef} className="relative h-full  md:mx-30 md:my-20  ">
         {images.map((url, i) => (
           <img
             key={i}
@@ -107,8 +127,8 @@ export default function IntroPage() {
             alt=""
           />
         ))}
-        <div className="border h-full w-full">
-          <p className="absolute border w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center introText text-8xl font-semibold z-100">
+        <div className=" h-full w-full">
+          <p className="absolute  w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center introText text-xl sm:text-5xl md:text-8xl font-semibold z-100">
             Browse Upcoming <br /> Events and Festivals <br />
             In Addis Abeba
           </p>
