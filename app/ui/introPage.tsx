@@ -46,7 +46,7 @@ export default function IntroPage() {
       delay: 1,
     });
 
-    let angleIndex = 90; // track which position in the oval to use
+    let angleIndex = 0; // track which position in the oval to use
     const totalPositions = images.length; // number of positions along the oval
     const radiusX = 550; // horizontal radius (longer)
     const radiusY = 300; // vertical radius (shorter)
