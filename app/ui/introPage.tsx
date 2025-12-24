@@ -81,8 +81,7 @@ export default function IntroPage() {
 
       tl.to(image, {
         opacity: 1,
-        duration: 1.5,
-        yoyo: true,
+        duration: 1,
         ease: "ease.in.Out",
       });
 
@@ -90,7 +89,7 @@ export default function IntroPage() {
         image,
         {
           opacity: 0,
-          scale: 0.6,
+          scale: 1,
           duration: 0.4,
           ease: "power2.inOut",
         },
