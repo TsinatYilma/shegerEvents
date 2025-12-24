@@ -108,7 +108,7 @@ export default function IntroPage() {
 
   return (
     <div
-      className="h-screen w-screen relative overflow-hidden"
+      className="h-screen w-full relative overflow-hidden"
       style={{
         transform: `translateY(-${scrollY * 0.5}px)`, // door slides up
         transition: "transform 0.2s ease-out",

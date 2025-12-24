@@ -3,7 +3,7 @@ import Mainsection from "@/app/ui/Mainsection";
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen items-center justify-center">
+    <div className="flex border flex-col min-h-screen items-center justify-center">
       <IntroPage />
       <Mainsection />
     </div>
