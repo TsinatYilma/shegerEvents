@@ -2,44 +2,81 @@ import React from "react";
 
 const CommunityGallery = () => {
   const images = [
-    "/communityGallery/rect1.1292bcda.jpg",
-    "/communityGallery/rect2.3190e086.jpg",
-    "/communityGallery/rect3.41929bcc.jpg",
-    "/communityGallery/rect4.370874d8.jpg",
-    "/communityGallery/rect5.42e5f5a5.jpg",
-    "/communityGallery/rect6.78913a56.jpg",
-    "/communityGallery/rect6.78913a56.jpg",
+    {
+      src: "/communityGallery/rect1.1292bcda.jpg",
+      rowSpan: "row-span-2 col-span-2",
+    },
+    {
+      src: "/communityGallery/rect2.3190e086.jpg",
+      rowSpan: "row-span-2 col-span-2",
+    },
+    {
+      src: "/communityGallery/rect3.41929bcc.jpg",
+      rowSpan: "row-span-2 col-span-2",
+    },
+    {
+      src: "/communityGallery/stripe1.c4b5c197.jpg",
+      rowSpan: "row-span-1 col-span-2",
+    },
+    {
+      src: "/communityGallery/rect4.370874d8.jpg",
+      rowSpan: "row-span-2 col-span-2",
+    },
+    {
+      src: "/communityGallery/vertical1.90318373.jpg",
+      rowSpan: "row-span-3 col-span-1",
+    },
+    {
+      src: "/communityGallery/vertical2.b80b8395.jpg",
+      rowSpan: "row-span-3 col-span-1",
+    },
+    {
+      src: "/communityGallery/rect5.42e5f5a5.jpg",
+      rowSpan: "row-span-2 col-span-2",
+    },
+    {
+      src: "/communityGallery/square1.9cfd9be6.jpg",
+      rowSpan: "row-span-2 col-span-1",
+    },
+    {
+      src: "/communityGallery/square2.28842873.jpg",
+      rowSpan: "row-span-2 col-span-1",
+    },
+    {
+      src: "/communityGallery/square3.d81942a3.jpg",
+      rowSpan: "row-span-2 col-span-1",
+    },
+    {
+      src: "/communityGallery/square4.7eb4f2e0.jpg",
+      rowSpan: "row-span-2 col-span-1",
+    },
+    {
+      src: "/communityGallery/rect6.78913a56.jpg",
+      rowSpan: "row-span-2 col-span-2",
+    },
+    {
+      src: "/communityGallery/rect7.6e368b4a.jpg",
+      rowSpan: "row-span-2 col-span-2",
+    },
   ];
 
   return (
-    <div className="w-full p-10 border">
+    <div className="w-full p-10 border border-red-500 mt-20 ">
       <div className="header border w-full">
         <h1 className="text-7xl text-[#FEFE00] text-start">
           COMMUNITY GALLERY
         </h1>
       </div>
-      <ul className="flex flex-col w-full gap-6 md:grid md:grid-cols-2 lg:w-1/2">
-        {images.map((src, index) => (
+      <ul className="grid grid-cols-4 auto-rows-[200px] gap-6 lg:w-full mt-20">
+        {images.map((img, i) => (
           <li
-            key={index}
-            className={`relative w-full overflow-hidden rounded-xl
-            ${
-              index === 0 || index === 2 || index === 6
-                ? "md:col-span-2 sm:h-[404px] h-[200px]"
-                : ""
-            }
-            ${
-              index === 1 || index === 3
-                ? "col-span-2 h-[200px] md:h-[346px]"
-                : ""
-            }
-            ${index === 4 || index === 5 ? "h-[290px]" : ""}
-          `}
+            key={i}
+            className={`relative overflow-hidden rounded-xl ${img.rowSpan}`}
           >
             <img
-              src={src}
+              src={img.src}
               alt=""
-              className="absolute inset-0 w-full h-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover"
             />
           </li>
         ))}
