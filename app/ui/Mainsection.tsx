@@ -79,7 +79,7 @@ const Mainsection = () => {
   }
 
   return (
-    <div className="flex flex-col gap-20 h-fit w-full border border-amber-300">
+    <div className="flex flex-col gap-20 h-fit w-full border border-amber-300 p-10">
       <div className="flex justify-between w-full h-fit border ">
         <div className="">
           <h1 className="text-xl sm:text-2xl md:text-7xl text-[#FEFE00]">
