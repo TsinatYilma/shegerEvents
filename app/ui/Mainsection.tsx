@@ -4,6 +4,7 @@ import { Search, MoveLeft, MoveRight } from "lucide-react";
 import { useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap/all";
+import EventDetail from "./eventDetail";
 
 const months = [
   "January",
@@ -25,6 +26,7 @@ const Mainsection = () => {
   const [currentMonthIndex, setCurrentMonthIndex] = useState(
     new Date().getMonth()
   );
+  const [DetailPageVisible, setDetailPagevisible] = useState(false);
   const [direction, setDirection] = useState(1);
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
 
@@ -79,7 +81,7 @@ const Mainsection = () => {
   }
 
   return (
-    <div className="flex flex-col gap-20 h-fit w-full border border-amber-300 p-10">
+    <div className="relative flex flex-col gap-20 h-fit w-full border border-amber-300 p-10">
       <div className="flex justify-between w-full h-fit border ">
         <div className="">
           <h1 className="text-xl sm:text-2xl md:text-7xl text-[#FEFE00]">
@@ -157,9 +159,15 @@ const Mainsection = () => {
                 <h1 className="text-xl">Specail Event For You</h1>
               </div>
               <div className="place flex flex-col gap-3">
-                <p className="">Hong Kong - CHINA</p>
+                <p className="">San Fransico - USA</p>
                 <div className="flex gap-5">
-                  <button className="border border-[#FEFE00] px-5 ">
+                  <button
+                    className="border z-10 border-[#FEFE00] px-5 transition-transform duration-30 ease-in-out hover:-translate-y-2"
+                    onClick={(prev) => {
+                      setDetailPagevisible(!prev);
+                      console.log("its u idioit!!!!!!!", DetailPageVisible);
+                    }}
+                  >
                     View Detail
                   </button>
                   <button className="border border-[#FEFE00] px-5">
@@ -283,6 +291,7 @@ const Mainsection = () => {
           </div>
         </div>
       </div>
+      <EventDetail isVisible={DetailPageVisible} />
     </div>
   );
 };

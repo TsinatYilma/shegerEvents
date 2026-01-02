@@ -40,10 +40,9 @@ export default function IntroPage() {
     masterTL.from(paraSplit.lines, {
       opacity: 0,
       yPercent: 100,
-      duration: 1.8,
+      duration: 1.2,
       ease: "expo.out",
-      stagger: 0.4,
-      delay: 1,
+      stagger: 0.2,
     });
 
     let angleIndex = 0; // track which position in the oval to use
@@ -127,10 +126,18 @@ export default function IntroPage() {
           />
         ))}
         <div className=" h-full w-full">
-          <p className="absolute  w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center introText text-xl sm:text-5xl md:text-8xl font-semibold z-100">
-            Browse Upcoming <br /> Events and Festivals <br />
-            In Addis Abeba
-          </p>
+          <div className="absolute   w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center  border text-xl sm:text-5xl md:text-8xl font-semibold z-100">
+            <p className="introText m-0 p-0 leading-[0.85] overflow-hidden ">
+              Browse Upcoming
+            </p>
+            <p className="introText m-0 p-0 leading-[0.85] overflow-hidden ">
+              {" "}
+              Events and Festivals{" "}
+            </p>
+            <p className="introText m-0 p-0 leading-[0.85] overflow-hidden ">
+              Addis Abeba
+            </p>
+          </div>
         </div>
       </div>
     </div>
