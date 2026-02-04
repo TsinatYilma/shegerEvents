@@ -1,11 +1,18 @@
 import React, { useState } from "react";
 
-const EventDetail = ({ isVisible }: { isVisible: boolean }) => {
+const EventDetail = ({
+  isVisible,
+  setDetailPagevisible,
+}: {
+  isVisible: boolean;
+  setDetailPagevisible: React.Dispatch<React.SetStateAction<boolean>>;
+}) => {
   return (
     <div
       className={`
-    absolute left-0 bottom-0 opacity-0 w-full bg-white h-[80vh] transition-transform duration-500 ease-in-out
-    ${isVisible ? "translate-y-full opacity-100" : "translate-y-0"}
+    absolute left-0 bottom-0 w-full bg-white h-[80vh]
+    transition-all duration-500 ease-in-out
+    ${isVisible ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"}
   `}
     ></div>
   );

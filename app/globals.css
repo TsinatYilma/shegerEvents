@@ -8,12 +8,18 @@
   font-family: "Space Grotesk";
   src: url("/SpaceGrotesk-Light.ttf") format("truetype");
 }
+@font-face {
+  font-family: "stepsMono";
+  src: url("/fonts/stepsMon-Bold.otf") format("truetype");
+  font-weight: 500;
+}
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-space-grotesk: "Space Grotesk", sans-serif;
+  --font-stepsMono: "stepsMono";
   --font-mono: var(--font-geist-mono);
 }
 
