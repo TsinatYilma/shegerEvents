@@ -9,6 +9,12 @@ export async function GET(req: NextRequest) {
     where: month ? { yearMonth: month } : undefined,
     orderBy: { datePosted: "asc" },
   });
+  const safeEvents = events.map((e) => ({
+    ...e,
+    datePosted: e.datePosted.toISOString(), 
+    createdAt: e.createdAt.toISOString(),
+    updatedAt: e.updatedAt.toISOString()
+  }))
 
-  return NextResponse.json(events);
+  return NextResponse.json(safeEvents);
 }

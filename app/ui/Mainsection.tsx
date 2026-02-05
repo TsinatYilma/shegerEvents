@@ -5,6 +5,16 @@ import { useState } from "react";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap/all";
 import EventDetail from "./eventDetail";
+import { postEvents, getEvents } from "../methods/events";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from '@tanstack/react-query'
+
+
 
 const months = [
   "January",
@@ -20,8 +30,31 @@ const months = [
   "November",
   "December",
 ];
+export interface Event {
+  id: string;
+  messageId: number;
+  title: string;
+  description: string;
+  price: string | null;
+  image: string | null;
+  datePosted: string;   // ISO date string
+  createdAt: string;
+  updatedAt: string;
+  yearMonth: string;    // "YYYY-MM" format
+  schemaVersion: number;
+}
 
 const Mainsection = () => {
+  const queryClient = useQueryClient()
+  const mutation = useMutation({
+    mutationFn: postEvents,
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries({ queryKey: ['todos'] })
+    },
+  })
+
+
   const closeDetailPage = useRef<HTMLDivElement>(null);
   const today = new Date();
   const [currentMonthIndex, setCurrentMonthIndex] = useState(
@@ -30,7 +63,13 @@ const Mainsection = () => {
   const [DetailPageVisible, setDetailPagevisible] = useState(false);
   const [direction, setDirection] = useState(1);
   const [currentYear, setCurrentYear] = useState(today.getFullYear());
+  const yearMonth = `${currentYear}-${String(currentMonthIndex + 1).padStart(2, "0")}`;
 
+  const { data: events = [], isLoading } = useQuery({
+    queryKey: ["events", yearMonth],
+    queryFn: () => getEvents(yearMonth),
+  });
+  console.log("the events ", events)
   useGSAP(() => {
     gsap.fromTo(
       "#title",
@@ -143,180 +182,45 @@ const Mainsection = () => {
         </div>
       </div>
       <div className="flex flex-wrap gap-10 justify-center items-center border w-full ">
-        <div className="flex flex-col  h-120 border-[0.15] border-[#FEFE00] max-w-200 min-w-120 p-5">
-          <div className="flex flex-col justify-around  text-[#FEFE00] font-space-grotesk">
-            <div className="image min-w-full ">
-              <img
-                className="max-w-110 rounded-xl"
-                src="/events/ae.jpg"
-                alt=""
-              />
-            </div>
-            <div className="flex flex-col gap-10 p-5 ">
-              <div className="time flex flex-col">
-                <p className="text-[12px]">oct-02 july 2025</p>
-                <h1 className="text-xl">Specail Event For You</h1>
-              </div>
-              <div className="place flex flex-col gap-3">
-                <p className="">Hong Kong - CHINA</p>
-                <div className="flex gap-5">
-                  <button className="border border-[#FEFE00] px-5 ">
-                    View DetailClose
-                  </button>
-                  <button className="border border-[#FEFE00] px-5">
-                    Buy Tickets
-                  </button>
+        {events.length === 0 ? (
+          <p className="text-white text-4xl text-center">No events found</p>
+        ) : (
+          events.map((event: Event) => (
+            <div className="flex flex-col  h-180 border-[0.15] border-[#FEFE00] max-w-200 min-w-120 p-5 pb-0">
+              <div className="flex flex-col justify-around  text-[#FEFE00] font-space-grotesk h-full ">
+                <div className="image min-w-full flex justify-center ">
+                  {event.image && (
+                    <img
+                      className="w-110 rounded-xl h-120"
+                      src={event.image}
+                      alt=""
+                    />
+                  )}
+                </div>
+                <div className="flex flex-col flex-1 p-5 justify-between  ">
+                  <div className="time flex flex-col ">
+                    <p className="text-[12px]">{event.datePosted}</p>
+                    <h1 className="text-xl max-w-[350px]">{event.title}</h1>
+                  </div>
+                  <div className="place flex flex-col gap-3">
+                    <p className="">Addis Abeba - Ethiopia</p>
+                    <div className="flex gap-5">
+                      <button className="border border-[#FEFE00] px-5 ">
+                        View Detail
+                      </button>
+                      <button className="border border-[#FEFE00] px-5">
+                        Buy Tickets
+                      </button>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
-        <div className="flex flex-col  h-120 border-[0.15] border-[#FEFE00] max-w-200 min-w-120 p-5">
-          <div className="flex flex-col justify-around  text-[#FEFE00] font-space-grotesk">
-            <div className="image min-w-full ">
-              <img
-                className="max-w-110 rounded-xl"
-                src="/events/ETH-Denver-24-3.jpeg"
-                alt=""
-              />
-            </div>
-            <div className="flex flex-col gap-10 p-5 ">
-              <div className="time flex flex-col">
-                <p className="text-[12px]">oct-02 july 2025</p>
-                <h1 className="text-xl">Specail Event For You</h1>
-              </div>
-              <div className="place flex flex-col gap-3">
-                <p className="">San Fransico - USA</p>
-                <div className="flex gap-5">
-                  <button
-                    className="border z-10 border-[#FEFE00] px-5 transition-transform duration-30 ease-in-out hover:-translate-y-2"
-                    onClick={() => {
-                      setDetailPagevisible(!DetailPageVisible);
-                      console.log("Clicked!", DetailPageVisible);
-                    }}
-                  >
-                    View DetailClose
-                  </button>
-                  <button className="border border-[#FEFE00] px-5">
-                    Buy Tickets
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col  h-120 border-[0.15] border-[#FEFE00] max-w-200 min-w-120 p-5">
-          <div className="flex flex-col justify-around  text-[#FEFE00] font-space-grotesk">
-            <div className="image min-w-full ">
-              <img
-                className="max-w-110 rounded-xl"
-                src="/events/ETHCC-7.jpg"
-                alt=""
-              />
-            </div>
-            <div className="flex flex-col gap-10 p-5 ">
-              <div className="time flex flex-col">
-                <p className="text-[12px]">oct-02 july 2025</p>
-                <h1 className="text-xl">Specail Event For You</h1>
-              </div>
-              <div className="place flex flex-col gap-3">
-                <p className="">Hong Kong - CHINA</p>
-                <div className="flex gap-5">
-                  <button className="border border-[#FEFE00] px-5 ">
-                    View DetailClose
-                  </button>
-                  <button className="border border-[#FEFE00] px-5">
-                    Buy Tickets
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col  h-120 border-[0.15] border-[#FEFE00] max-w-200 min-w-120 p-5">
-          <div className="flex flex-col justify-around  text-[#FEFE00] font-space-grotesk">
-            <div className="image min-w-full ">
-              <img
-                className="max-w-110 rounded-xl"
-                src="/events/interchain.jpg"
-                alt=""
-              />
-            </div>
-            <div className="flex flex-col gap-10 p-5 ">
-              <div className="time flex flex-col">
-                <p className="text-[12px]">oct-02 july 2025</p>
-                <h1 className="text-xl">Specail Event For You</h1>
-              </div>
-              <div className="place flex flex-col gap-3">
-                <p className="">Hong Kong - CHINA</p>
-                <div className="flex gap-5">
-                  <button className="border border-[#FEFE00] px-5 ">
-                    View DetailClose
-                  </button>
-                  <button className="border border-[#FEFE00] px-5">
-                    Buy Tickets
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col  h-120 border-[0.15] border-[#FEFE00] max-w-200 min-w-120 p-5">
-          <div className="flex flex-col justify-around  text-[#FEFE00] font-space-grotesk">
-            <div className="image min-w-full">
-              <img
-                className="max-w-110 rounded-xl"
-                src="/events/xdapp-day.jpg"
-                alt=""
-              />
-            </div>
-            <div className="flex flex-col gap-10 p-5 ">
-              <div className="time flex flex-col">
-                <p className="text-[12px]">oct-02 july 2025</p>
-                <h1 className="text-xl">Specail Event For You</h1>
-              </div>
-              <div className="place flex flex-col gap-3">
-                <p className="">Hong Kong - CHINA</p>
-                <div className="flex gap-5">
-                  <button className="border border-[#FEFE00] px-5 ">
-                    View DetailClose
-                  </button>
-                  <button className="border border-[#FEFE00] px-5">
-                    Buy Tickets
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="flex flex-col  h-120 border-[0.15] border-[#FEFE00] max-w-200 min-w-120 p-5">
-          <div className="flex flex-col justify-around  text-[#FEFE00] font-space-grotesk">
-            <div className="image min-w-full ">
-              <img
-                className="max-w-110 rounded-xl"
-                src="/events/nebular.jpg"
-                alt=""
-              />
-            </div>
-            <div className="flex flex-col gap-10 p-5 ">
-              <div className="time flex flex-col">
-                <p className="text-[12px]">oct-02 july 2025</p>
-                <h1 className="text-xl">Specail Event For You</h1>
-              </div>
-              <div className="place flex flex-col gap-3">
-                <p className="">Hong Kong - CHINA</p>
-                <div className="flex gap-5">
-                  <button className="border border-[#FEFE00] px-5 ">
-                    View DetailClose
-                  </button>
-                  <button className="border border-[#FEFE00] px-5">
-                    Buy Tickets
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+          )))
+        }
+
+
+
       </div>
       <EventDetail
         isVisible={DetailPageVisible}
