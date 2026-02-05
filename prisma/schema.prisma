@@ -24,6 +24,7 @@ model Event {
   price        String?
   image        String?
   datePosted   DateTime
+  yearMonth    String
   schemaVersion Int     @default(1)
 
   createdAt    DateTime @default(now())
