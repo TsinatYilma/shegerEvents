@@ -16,56 +16,56 @@ app.get("/", (req, res) => {
 // Bulk upsert endpoint
 
 app.post(
-    "/api/events/upsert",
-async (req: Request<{}, {}, BulkEventRequest>, res: Response) => {
-  const events = req.body;
+  "/api/events/upsert",
+  async (req: Request<{}, {}, BulkEventRequest>, res: Response) => {
+    const events = req.body;
 
-  if (!Array.isArray(events) || events.length === 0) {
-    return res.status(400).json({ message: "No events provided" });
-  }
-  
+    if (!Array.isArray(events) || events.length === 0) {
+      return res.status(400).json({ message: "No events provided" });
+    }
 
-  try {
-    // Prepare upsert promises
-    const upsertPromises = events.map((event) =>{
-      const date = new Date(event.datePosted);
-      const yearMonth = date.toISOString().slice(0, 7);
-      prisma.event.upsert({
-        where: {
+
+    try {
+      // Prepare upsert promises
+      const upsertPromises = events.map((event) => {
+        const date = new Date(event.datePosted);
+        const yearMonth = date.toISOString().slice(0, 7);
+        prisma.event.upsert({
+          where: {
             messageId: event.messageId,
-        },
-        update: {
-          title: event.title,
-          description: event.description,
-          price: event.price,
-          image: event.image,
-          datePosted: event.datePosted,
-          yearMonth: yearMonth,
-        },
-        create: {
-          messageId: event.messageId,
-          title: event.title,
-          description: event.description,
-          price: event.price,
-          image: event.image,
-          datePosted: event.datePosted,
-          yearMonth: yearMonth,
-          schemaVersion: 1,
-        },
-      })
-  });
+          },
+          update: {
+            title: event.title,
+            description: event.description,
+            price: event.price,
+            image: event.image,
+            datePosted: event.datePosted,
+            yearMonth,
+          },
+          create: {
+            messageId: event.messageId,
+            title: event.title,
+            description: event.description,
+            price: event.price,
+            image: event.image,
+            datePosted: event.datePosted,
+            yearMonth,
+            schemaVersion: 1,
+          },
+        })
+      });
 
-    const results = await Promise.all(upsertPromises);
+      const results = await Promise.all(upsertPromises);
 
-    res.json({
-      success: true,
-      insertedOrUpdated: results.length,
-    });
-  } catch (err: any) {
-    console.error(err);
-    res.status(500).json({ message: "Bulk upsert failed", error: err.message });
-  }
-})
+      res.json({
+        success: true,
+        insertedOrUpdated: results.length,
+      });
+    } catch (err: any) {
+      console.error(err);
+      res.status(500).json({ message: "Bulk upsert failed", error: err.message });
+    }
+  })
 
 //get the events by month
 app.get("/api/events", async (req, res) => {
