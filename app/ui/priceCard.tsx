@@ -22,7 +22,7 @@ const PriceCard = ({ event }: PriceCardProps) => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4 }}
-            className="bg-card rounded-2xl border border-border p-6 shadow-card space-y-6 sticky top-20 md:mx-10"
+            className="bg-card rounded-2xl border border-border p-6 mx-20 shadow-card space-y-6 sticky top-20  sm:mx-10 md:mx-10"
         >
             {/* Price */}
             <div className="space-y-1">

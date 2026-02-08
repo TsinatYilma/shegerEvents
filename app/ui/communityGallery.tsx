@@ -84,8 +84,8 @@ const CommunityGallery = () => {
   }, []);
 
   return (
-    <div className=" w-full p-10 border border-red-500 mt-20 ">
-      <div className="header border w-full">
+    <div className=" w-full p-10  mt-20 ">
+      <div className="header  w-full">
         <h1 className="text-7xl text-[#FEFE00] text-start">
           COMMUNITY GALLERY
         </h1>

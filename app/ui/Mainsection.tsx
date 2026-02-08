@@ -136,7 +136,7 @@ const Mainsection = () => {
 
   return (
     <div
-      className="relative flex flex-col gap-20 h-fit w-full border border-amber-300 p-10"
+      className="relative flex flex-col gap-20 h-fit w-full p-10"
     >
       <div className="flex justify-between w-full h-fit ">
         <div className="">

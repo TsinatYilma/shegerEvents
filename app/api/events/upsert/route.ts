@@ -24,8 +24,8 @@ export async function POST(req: NextRequest) {
 
 
     const upsertPromises = events.map((event) => {
-      const date = new Date(event.date);
-      const yearMonth = date.toISOString().slice(0, 7);
+      const Parseddate = new Date(event.date);
+      const yearMonth = Parseddate.toISOString().slice(0, 7);
 
       return prisma.event.upsert({
         where: { messageId: event.messageId },
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
           description: event.description,
           price: event.price,
           image: event.image,
-          date: event.date,
+          date: Parseddate,
           yearMonth,
           location: event.location,
           city: event.city,
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
           description: event.description,
           price: event.price,
           image: event.image,
-          date: event.date,
+          date: Parseddate,
           yearMonth,
           location: event.location,
           city: event.city,

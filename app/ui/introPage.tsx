@@ -126,7 +126,7 @@ export default function IntroPage() {
           />
         ))}
         <div className=" h-full w-full">
-          <div className="absolute   w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center  border text-xl sm:text-5xl  md:text-8xl font-semibold z-100">
+          <div className="absolute   w-full top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-center  text-xl sm:text-5xl  md:text-8xl font-semibold z-100">
             <p className="introText m-0 p-0 leading-[0.85] overflow-hidden   ">
               Browse Upcoming
             </p>

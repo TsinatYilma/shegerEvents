@@ -24,13 +24,21 @@ export default function Events({ events, loading, setDetailPagevisible, DetailPa
                     ))}
                 </>
             ) : events.length === 0 ? (
-                <>
-                    {[...Array(6)].map((_, i) => (
-                        <EventSkeleton key={i} />
-                    ))}
-                </>) : (
+
+                <div className="min-h-screen bg-background flex items-center justify-center px-4">
+                    <div className="text-center space-y-4">
+                        <span className="text-6xl">🎫</span>
+                        <h1 className="text-2xl font-display font-bold text-foreground">
+                            No Events Found
+                        </h1>
+                        <p className="text-muted-foreground max-w-sm mx-auto">
+                            No Events Posted in this Month
+                        </p>
+                    </div>
+                </div>
+            ) : (
                 events.map((event: Event) => (
-                    <div className="flex flex-col  min-h-160 max-h-fit border-[0.15] border-[#FEFE00] max-w-200 max-w-100 p-5 pb-0">
+                    <div className="flex flex-col  min-h-160 max-h-fit border-[0.15] border-[#FEFE00] max-w-100  p-5 pb-0">
                         <div className="flex flex-col justify-around  text-[#FEFE00] font-space-grotesk flex-1">
                             <div className="image min-w-full flex justify-center ">
                                 {event.image && (

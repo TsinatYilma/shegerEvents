@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
   });
   const safeEvents = events.map((e) => ({
     ...e,
-    datePosted: e.date.toISOString(),
+    date: e.date.toISOString(),
     createdAt: e.createdAt.toISOString(),
     updatedAt: e.updatedAt.toISOString()
   }))

@@ -28,7 +28,7 @@ app.post(
     try {
       // Prepare upsert promises
       const upsertPromises = events.map((event) => {
-        const date = new Date(event.datePosted);
+        const date = new Date(event.date);
         const yearMonth = date.toISOString().slice(0, 7);
         prisma.event.upsert({
           where: {
@@ -39,7 +39,7 @@ app.post(
             description: event.description,
             price: event.price,
             image: event.image,
-            datePosted: event.datePosted,
+            date: event.date,
             yearMonth,
           },
           create: {
@@ -48,7 +48,7 @@ app.post(
             description: event.description,
             price: event.price,
             image: event.image,
-            datePosted: event.datePosted,
+            date: event.date,
             yearMonth,
             schemaVersion: 1,
           },
@@ -73,7 +73,7 @@ app.get("/api/events", async (req, res) => {
 
   const events = await prisma.event.findMany({
     where: typeof month === "string" ? { yearMonth: month } : undefined,
-    orderBy: { datePosted: "asc" },
+    orderBy: { date: "asc" },
   });
 
   res.json(events);

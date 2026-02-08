@@ -24,7 +24,7 @@ const EventInfo = ({
             className="space-y-6  px-20 flex flex-col items-center justify-center"
         >
             {/* Title */}
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold font-display text-foreground leading-tight">
+            <h1 className="text-3xl md:text-4xl font-bold font-display text-foreground leading-tight">
                 {event.title}
             </h1>
 
@@ -49,7 +49,7 @@ const EventInfo = ({
             </div>
 
             {/* Description */}
-            <div className="space-y-3 pt-4 border-t border-border w-full">
+            <div className="space-y-3 pt-4 border-t border-border w-full  lg:px-20">
                 <h2 className="text-xl font-semibold font-display text-foreground">About This Event</h2>
                 <p className="text-muted-foreground leading-relaxed max-w-140 ">{event.description}</p>
             </div>
