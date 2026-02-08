@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 import { prisma } from './prisma';
-import { Prisma } from '../generated/prisma/client';
-
+import { Prisma } from '@prisma/client';
+/*
 const app = express();
 
 app.use(express.json()); // parse JSON body
@@ -85,3 +85,4 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
 });
+*/
