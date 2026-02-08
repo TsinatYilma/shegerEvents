@@ -4,7 +4,7 @@ export type Event = {
     description: string;
     price?: string | null;
     image?: string | null;
-    datePosted: string;
+    date: string;
     location: string;
     city: string;
     contact?: string | null;

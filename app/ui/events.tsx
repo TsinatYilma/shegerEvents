@@ -2,6 +2,7 @@
 import { Suspense } from "react";
 import { Event } from "@/utils/types";
 import { useState } from "react";
+import { useEventStore } from "@/store/eventHolder";
 import EventSkeleton from "@/utils/eventsFallback";
 type EventsProps = {
     events: Event[];
@@ -12,7 +13,7 @@ type EventsProps = {
 
 
 export default function Events({ events, loading, setDetailPagevisible, DetailPageVisible }: EventsProps,) {
-
+    const setEvent = useEventStore((state) => (state.setEvents))
 
     return (
         <div className="flex flex-wrap gap-10 justify-center items-center  w-full min-h-200">
@@ -42,7 +43,7 @@ export default function Events({ events, loading, setDetailPagevisible, DetailPa
                             </div>
                             <div className="flex flex-col flex-1 p-5 justify-between  ">
                                 <div className="time flex flex-col ">
-                                    <p className="text-[12px]">{event.datePosted}</p>
+                                    <p className="text-[12px]">{event.date}</p>
                                     <h1 className="text-xl max-w-[350px]">{event.title}</h1>
                                 </div>
                                 <div className="place flex flex-col gap-3">
@@ -51,7 +52,9 @@ export default function Events({ events, loading, setDetailPagevisible, DetailPa
                                         <p className="">Location: {event.location}</p>
                                     </div>
                                     <div className="flex gap-5">
-                                        <button className="border border-[#FEFE00] px-5 " onClick={() => setDetailPagevisible(!DetailPageVisible)}>
+                                        <button className="border border-[#FEFE00] px-5 " onClick={() => (
+                                            setEvent(event),
+                                            setDetailPagevisible(!DetailPageVisible))}>
                                             View Detail
                                         </button>
                                         <button className="border border-[#FEFE00] px-5">

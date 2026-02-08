@@ -21,7 +21,7 @@ model Event {
   description   String
   price         String?
   image         String?
-  datePosted    DateTime
+  date          DateTime
   yearMonth     String
   location      String
   city          String
@@ -32,5 +32,5 @@ model Event {
   updatedAt DateTime @updatedAt
 
   @@unique([messageId])
-  @@index([datePosted])
+  @@index([date])
 }

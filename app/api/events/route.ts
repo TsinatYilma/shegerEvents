@@ -7,11 +7,11 @@ export async function GET(req: NextRequest) {
 
   const events = await prisma.event.findMany({
     where: month ? { yearMonth: month } : undefined,
-    orderBy: { datePosted: "asc" },
+    orderBy: { date: "asc" },
   });
   const safeEvents = events.map((e) => ({
     ...e,
-    datePosted: e.datePosted.toISOString(), 
+    datePosted: e.date.toISOString(),
     createdAt: e.createdAt.toISOString(),
     updatedAt: e.updatedAt.toISOString()
   }))

@@ -8,7 +8,7 @@ type EventInput = {
   description: string;
   price?: string | null;
   image?: string | null;
-  datePosted: string;
+  date: string;
   location: string;
   city: string;
   contact?: string | null;
@@ -24,7 +24,7 @@ export async function POST(req: NextRequest) {
 
 
     const upsertPromises = events.map((event) => {
-      const date = new Date(event.datePosted);
+      const date = new Date(event.date);
       const yearMonth = date.toISOString().slice(0, 7);
 
       return prisma.event.upsert({
@@ -34,7 +34,7 @@ export async function POST(req: NextRequest) {
           description: event.description,
           price: event.price,
           image: event.image,
-          datePosted: event.datePosted,
+          date: event.date,
           yearMonth,
           location: event.location,
           city: event.city,
@@ -46,7 +46,7 @@ export async function POST(req: NextRequest) {
           description: event.description,
           price: event.price,
           image: event.image,
-          datePosted: event.datePosted,
+          date: event.date,
           yearMonth,
           location: event.location,
           city: event.city,

@@ -180,6 +180,7 @@ const Mainsection = () => {
 
       <EventDetail
         ref={closeDetailPage}
+        DetailPageVisible={DetailPageVisible}
         isVisible={DetailPageVisible}
         setDetailPagevisible={setDetailPagevisible}
       />
