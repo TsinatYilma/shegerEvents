@@ -132,7 +132,7 @@ export default function IntroPage() {
             </p>
             <p className="introText m-0 p-0 leading-[0.85] overflow-hidden ">
               {" "}
-              Events and Festivals{" "}
+              Events and Festivals In{" "}
             </p>
             <p className="introText m-0 p-0 leading-[0.85] overflow-hidden ">
               Addis Abeba
