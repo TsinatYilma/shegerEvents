@@ -10,7 +10,7 @@ export async function postEvents(book: {
     publicationYear: Number(book.publicationYear),
   };
 
-  const res = await fetch("http://localhost:3000/api/events/upsert", {
+  const res = await fetch("/api/events/upsert", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
@@ -23,7 +23,7 @@ export async function postEvents(book: {
 
 export async function getEvents(yearMonth: string) {
   await new Promise((resolve) => setTimeout(resolve, 1000));
-  const res = await fetch(`http://localhost:3000/api/events?month=${yearMonth}`);
+  const res = await fetch(`/api/events?month=${yearMonth}`);
   if (!res.ok) throw new Error("Failed to fetch books");
   return res.json();
 }
