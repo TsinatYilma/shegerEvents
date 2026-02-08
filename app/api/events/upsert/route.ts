@@ -1,13 +1,27 @@
 import { NextRequest, NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma"; // path to your Prisma client
+import { prisma } from "@/lib/prisma";
+
+
+type EventInput = {
+  messageId: number;
+  title: string;
+  description: string;
+  price?: string | null;
+  image?: string | null;
+  datePosted: string;
+  location: string;
+  city: string;
+  contact?: string | null;
+};
 
 export async function POST(req: NextRequest) {
   try {
-    const events = await req.json();
+    const events: EventInput[] = await req.json();
 
     if (!Array.isArray(events) || events.length === 0) {
       return NextResponse.json({ message: "No events provided" }, { status: 400 });
     }
+
 
     const upsertPromises = events.map((event) => {
       const date = new Date(event.datePosted);
@@ -22,6 +36,9 @@ export async function POST(req: NextRequest) {
           image: event.image,
           datePosted: event.datePosted,
           yearMonth,
+          location: event.location,
+          city: event.city,
+          contact: event.contact ?? null,
         },
         create: {
           messageId: event.messageId,
@@ -31,14 +48,22 @@ export async function POST(req: NextRequest) {
           image: event.image,
           datePosted: event.datePosted,
           yearMonth,
+          location: event.location,
+          city: event.city,
+          contact: event.contact ?? null,
           schemaVersion: 1,
         },
       });
     });
 
+    // Wait for all upserts
     const results = await Promise.all(upsertPromises);
 
-    return NextResponse.json({ success: true, insertedOrUpdated: results.length });
+    // Return success with count
+    return NextResponse.json({
+      success: true,
+      insertedOrUpdated: results.length,
+    });
   } catch (err: any) {
     console.error(err);
     return NextResponse.json(

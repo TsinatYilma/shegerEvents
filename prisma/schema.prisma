@@ -4,8 +4,6 @@
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
-
-
 generator client {
   provider = "prisma-client"
   output   = "../generated/prisma"
@@ -17,18 +15,21 @@ datasource db {
 }
 
 model Event {
-  id           String   @id @default(auto()) @map("_id") @db.ObjectId
-  messageId    Int
-  title        String
-  description  String
-  price        String?
-  image        String?
-  datePosted   DateTime
-  yearMonth    String
-  schemaVersion Int     @default(1)
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  messageId     Int
+  title         String
+  description   String
+  price         String?
+  image         String?
+  datePosted    DateTime
+  yearMonth     String
+  location      String
+  city          String
+  contact       String? // optional, some events don’t have it
+  schemaVersion Int      @default(1)
 
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@unique([messageId])
   @@index([datePosted])

@@ -22,7 +22,12 @@ export default function Events({ events, loading, setDetailPagevisible, DetailPa
                         <EventSkeleton key={i} />
                     ))}
                 </>
-            ) : (
+            ) : events.length === 0 ? (
+                <>
+                    {[...Array(6)].map((_, i) => (
+                        <EventSkeleton key={i} />
+                    ))}
+                </>) : (
                 events.map((event: Event) => (
                     <div className="flex flex-col  min-h-160 max-h-fit border-[0.15] border-[#FEFE00] max-w-200 max-w-100 p-5 pb-0">
                         <div className="flex flex-col justify-around  text-[#FEFE00] font-space-grotesk flex-1">
@@ -41,7 +46,10 @@ export default function Events({ events, loading, setDetailPagevisible, DetailPa
                                     <h1 className="text-xl max-w-[350px]">{event.title}</h1>
                                 </div>
                                 <div className="place flex flex-col gap-3">
-                                    <p className="">Addis Abeba - Ethiopia</p>
+                                    <div className="flex flex-col gap-">
+                                        <p className="">Price: {event.price}</p>
+                                        <p className="">Location: {event.location}</p>
+                                    </div>
                                     <div className="flex gap-5">
                                         <button className="border border-[#FEFE00] px-5 " onClick={() => setDetailPagevisible(!DetailPageVisible)}>
                                             View Detail
@@ -55,6 +63,7 @@ export default function Events({ events, loading, setDetailPagevisible, DetailPa
                         </div>
                     </div>
                 ))
+
             )}
         </div>
     )
