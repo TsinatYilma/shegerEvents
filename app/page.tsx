@@ -21,7 +21,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
           <div>
             <h2 className="text-xl font-semibold text-white">
-              Community Gallery
+              Sheger Events
             </h2>
             <p className="mt-2 text-sm max-w-sm">
               A space where moments, creativity, and people come together.
@@ -29,7 +29,7 @@ export default function Home() {
           </div>
 
           <div className="text-sm">
-            © {new Date().getFullYear()} Community Gallery <br />
+            © {new Date().getFullYear()} Sheger Events <br />
             Designed & developed with care.
           </div>
         </div>
